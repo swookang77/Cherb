@@ -1,27 +1,16 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
-import { AxiosError } from 'axios';
-import { catchError, firstValueFrom } from 'rxjs';
+import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { VitaminAttrDto } from './dto/get-vitamin-attr.dto';
 
 @Injectable()
 export class VitaminService {
-  constructor(private readonly httpService: HttpService) {}
-  private readonly logger = new Logger('YYG');
   async getVitaminAttr(search: string): Promise<VitaminAttrDto[]> {
     const searchUrl = `https://kr.iherb.com/search?kw=${search}`;
     //iherb에 검색.
-    const data = await firstValueFrom(
-      this.httpService.get(searchUrl).pipe(
-        catchError((error: AxiosError) => {
-          this.logger.error(error.response.data);
-          throw 'getImage axios error';
-        }),
-      ),
-    );
+    const response = await axios.get(searchUrl);
     //html 스크래핑.
-    const html = data.data;
+    const html = response.data;
     const $ = cheerio.load(html);
     const vitaminSelector =
       '#FilteredProducts > div.panel-stack.defer-block > div:nth-child(2) > div.products.product-cells.clearfix > div.product-cell-container > div.product.ga-product > div.product-inner.product-inner-wide > div.absolute-link-wrapper';
@@ -40,5 +29,29 @@ export class VitaminService {
       }
     });
     return vitaminAttr;
+  }
+  async getVitaminFacts(href: string) {
+    //403방지 헤더.
+    const config = {
+      headers: {
+        'User-Agent': 'insomnia/2023.2.2',
+      },
+    };
+    const response = await axios.get(href, config);
+    //supplement facts 스크래핑
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const factsSelector =
+      'body > div.product-grouping-wrapper.defer-block > article > div.container.product-overview > div > section > div.inner-content > div > div > div.col-xs-24.col-md-10 > div > table > tbody > tr';
+    const supplementFacts = {};
+    const factsElems = $(factsSelector);
+    factsElems.each((idx, node) => {
+      if (2 < idx && idx < factsElems.length - 1) {
+        const nutrient = $(node).find('td').eq(0).contents().first().text();
+        const value = $(node).find('td').eq(1).contents().first().text();
+        supplementFacts[nutrient] = value;
+      }
+    });
+    return supplementFacts;
   }
 }

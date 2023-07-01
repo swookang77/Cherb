@@ -4,8 +4,23 @@ import { URL_DEV } from "../config";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-
+import {v4 as uuidv4 } from 'uuid';
 const VitaminList = ({vitaminArray})=>{
+  const handleAddButton = async (title,href) => {
+    const uuid = uuidv4();
+    const data = {
+      title,
+      href,
+      uuid,
+    }
+    try {
+      const URL = `${URL_DEV}/vitamin/supplement-facts`;
+      const response = await axios.post(URL,data); 
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <Row xs={1} md={2} className="g-4">
       {vitaminArray.map((object, idx) => (
@@ -13,6 +28,7 @@ const VitaminList = ({vitaminArray})=>{
           <Card>
             <Card.Img variant="top" src={object.img} />
             <Card.Body>
+              <button onClick={()=>handleAddButton(object.title,object.href)}>추가하기</button>
               <Card.Title>{object.title}</Card.Title>
             </Card.Body>
           </Card>
@@ -26,7 +42,7 @@ const VitaminList = ({vitaminArray})=>{
 const SearchVitamin = () => {
   const [inputValue, setInputValue] = useState("");
   const [vitaminArray, setVitamins] = useState([]);
-  const handleButtonClick = async () => {
+  const handleSearchButton = async () => {
     try {
       const URL = `${URL_DEV}/vitamin/image?search=${inputValue}`;
       const response = await axios.get(URL);
@@ -41,7 +57,7 @@ const SearchVitamin = () => {
   return (
     <div>
       <input type="text" value={inputValue} onChange={handleInputChange} />
-      <button onClick={handleButtonClick}>요청하기</button>
+      <button onClick={handleSearchButton}>검색하기</button>
       <VitaminList vitaminArray={vitaminArray}></VitaminList>
     </div>
 
