@@ -7,9 +7,11 @@ import Row from "react-bootstrap/Row";
 import { v4 as uuidv4 } from "uuid";
 import { vitaminListActions } from "../vitaminList-reducer";
 import { useDispatch } from "react-redux";
+
+//VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   const dispatch = useDispatch();
-  //비타민 검색창에서 추가 버튼 눌렀을 때
+  //비타민 검색창에서 추가 버튼 눌렀을 때 핸들러.
   const handleAddButton = async (title, href) => {
     //vitaminList상태 변경하기
     const uuid = uuidv4();

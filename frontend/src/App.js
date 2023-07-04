@@ -6,10 +6,14 @@ import { Provider } from 'react-redux'
 function App() {
   return (
     <Provider store={store}>
-      <div className="Combination">
+      <div className="combination">
         <div className="grid-container">
-          <SearchVitamin />
-          <PickedVitamin></PickedVitamin>
+          <div className="search-vitamin">
+            <SearchVitamin />{" "}
+          </div>
+          <div className="vitaminlist">
+            <PickedVitamin></PickedVitamin>
+          </div>
         </div>
       </div>
     </Provider>
