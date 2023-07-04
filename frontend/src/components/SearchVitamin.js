@@ -11,25 +11,24 @@ import { useDispatch } from "react-redux";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   const dispatch = useDispatch();
-  //비타민 검색창에서 추가 버튼 눌렀을 때 핸들러.
+  //비타민 검색창에서 추가 버튼 눌렀을 때
   const handleAddButton = async (title, href) => {
-    //vitaminList상태 변경하기
+    //vitaminList상태 변경
     const uuid = uuidv4();
     const vitaminListElem = {
       uuid,
       title,
     };
     dispatch(vitaminListActions.addVitaminElem(vitaminListElem));
-    //서버에 추가한 영양제 정보 보내기. 어떤 정보를 받아올지는 미정.
+    //영양 성분 가져오기.
     const data = {
-      uuid,
-      title,
       href,
     };
     try {
       const URL = `${URL_DEV}/vitamin/supplement-facts`;
       const response = await axios.post(URL, data);
-      console.log(response.data);
+      const facts = response.data;
+      console.log(facts);
     } catch (error) {
       console.error(error);
     }

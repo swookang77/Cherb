@@ -8,6 +8,7 @@ export default function PickedVitamin() {
   //초기화 버튼.
   const handleReset = () =>{
     persistor.purge();
+    sessionStorage.clear();
     window.location.reload();
   }
   return (

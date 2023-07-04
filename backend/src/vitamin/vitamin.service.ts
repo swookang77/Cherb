@@ -37,6 +37,7 @@ export class VitaminService {
         'User-Agent': 'insomnia/2023.2.2',
       },
     };
+    console.log(href);
     const response = await axios.get(href, config);
     //supplement facts 스크래핑
     const html = response.data;
@@ -46,10 +47,12 @@ export class VitaminService {
     const supplementFacts = {};
     const factsElems = $(factsSelector);
     factsElems.each((idx, node) => {
-      if (2 < idx && idx < factsElems.length - 1) {
+      if (2 < idx && idx < factsElems.length) {
         const nutrient = $(node).find('td').eq(0).contents().first().text();
         const value = $(node).find('td').eq(1).contents().first().text();
-        supplementFacts[nutrient] = value;
+        if (nutrient !== ' ' && nutrient !== '하루 영양소 기준치') {
+          supplementFacts[nutrient] = value;
+        }
       }
     });
     return supplementFacts;

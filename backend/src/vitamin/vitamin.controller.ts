@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { VitaminService } from './vitamin.service';
-import Vitamin from './models/vitamin.model';
+// import Vitamin from './models/vitamin.model';
 
 @Controller('vitamin')
 export class VitaminController {
@@ -14,15 +14,8 @@ export class VitaminController {
   @Post('/supplement-facts')
   async getFacts(@Body() body) {
     const href = body.href;
-    const title = body.title;
-    const id = body.uuid;
     const supplementFacts = await this.vitaminService.getVitaminFacts(href);
-    const vitamin: Vitamin = {
-      id,
-      title,
-      supplementFacts,
-    };
-    console.log(vitamin);
+    console.log(supplementFacts);
     return 'test';
   }
 }
