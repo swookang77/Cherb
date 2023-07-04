@@ -1,11 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 import vitaminListReducer from "./vitaminList-reducer";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
 
+const persistConfig = {
+  key: "root",
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, vitaminListReducer);
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    vitaminList: vitaminListReducer
+    vitaminList: persistedReducer
   },
+  middleware:[thunk]
 });
 
-export default store;
+export const persistor = persistStore(store)
