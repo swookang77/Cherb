@@ -10,6 +10,21 @@ import { useDispatch } from "react-redux";
 
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
+  function mergeObjects(obj1, obj2) {
+    const mergedObj = Object.assign({}, obj1);
+
+    for (let key in obj2) {
+      if (mergedObj.hasOwnProperty(key)) {
+        if (typeof mergedObj[key] === "number" && typeof obj2[key] === "number") {
+          mergedObj[key] += obj2[key];
+        }
+      } else {
+        mergedObj[key] = obj2[key];
+      }
+    }
+
+    return mergedObj;
+  }
   const dispatch = useDispatch();
   //비타민 검색창에서 추가 버튼 눌렀을 때
   const handleAddButton = async (title, href) => {
@@ -24,14 +39,21 @@ const VitaminList = ({ vitaminArray }) => {
     const data = {
       href,
     };
-    try {
-      const URL = `${URL_DEV}/vitamin/supplement-facts`;
-      const response = await axios.post(URL, data);
-      const facts = response.data;
-      console.log(facts);
-    } catch (error) {
-      console.error(error);
+    const URL = `${URL_DEV}/vitamin/supplement-facts`;
+    const response = await axios.post(URL, data);
+    const facts = response.data;
+    //세션스토리지에 영양성분 저장.
+    sessionStorage.setItem(uuid, JSON.stringify(facts));
+    //세션스토리지에서 total가져온 후 total 갱신.
+    const storedTotal = sessionStorage.getItem("total");
+    let newTotal;
+    if (!storedTotal) {
+      newTotal = facts;
+    } else {
+      const oldTotal = JSON.parse(storedTotal);
+      newTotal = mergeObjects(oldTotal, facts);
     }
+    console.log(newTotal);
   };
   return (
     <Row xs={1} md={2} className="g-4">

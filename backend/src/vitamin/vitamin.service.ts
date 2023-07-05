@@ -49,8 +49,15 @@ export class VitaminService {
     factsElems.each((idx, node) => {
       if (2 < idx && idx < factsElems.length) {
         const nutrient = $(node).find('td').eq(0).contents().first().text();
-        const value = $(node).find('td').eq(1).contents().first().text();
-        if (nutrient !== ' ' && nutrient !== '하루 영양소 기준치') {
+        const data = $(node).find('td').eq(1).contents().first().text();
+        if (
+          nutrient !== ' ' &&
+          nutrient !== '하루 영양소 기준치' &&
+          data !== ''
+        ) {
+          const value = data.includes('mg')
+            ? parseInt(data, 10)
+            : parseInt(data, 10) / 1000;
           supplementFacts[nutrient] = value;
         }
       }

@@ -16,6 +16,6 @@ export class VitaminController {
     const href = body.href;
     const supplementFacts = await this.vitaminService.getVitaminFacts(href);
     console.log(supplementFacts);
-    return 'test';
+    return supplementFacts;
   }
 }
