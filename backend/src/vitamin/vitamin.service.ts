@@ -37,7 +37,6 @@ export class VitaminService {
         'User-Agent': 'insomnia/2023.2.2',
       },
     };
-    console.log(href);
     const response = await axios.get(href, config);
     //supplement facts 스크래핑
     const html = response.data;

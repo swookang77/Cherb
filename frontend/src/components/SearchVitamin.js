@@ -11,19 +11,16 @@ import { useDispatch } from "react-redux";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   function mergeObjects(obj1, obj2) {
-    const mergedObj = Object.assign({}, obj1);
-
     for (let key in obj2) {
-      if (mergedObj.hasOwnProperty(key)) {
-        if (typeof mergedObj[key] === "number" && typeof obj2[key] === "number") {
-          mergedObj[key] += obj2[key];
-        }
+      if (obj1.hasOwnProperty(key)) {
+        obj1[key] += obj2[key];
+        obj1[key] = obj1[key].toFixed(2);
       } else {
-        mergedObj[key] = obj2[key];
+        obj1[key] = obj2[key];
       }
     }
 
-    return mergedObj;
+    return obj1;
   }
   const dispatch = useDispatch();
   //비타민 검색창에서 추가 버튼 눌렀을 때
@@ -53,6 +50,7 @@ const VitaminList = ({ vitaminArray }) => {
       const oldTotal = JSON.parse(storedTotal);
       newTotal = mergeObjects(oldTotal, facts);
     }
+    sessionStorage.setItem('total',JSON.stringify(newTotal));
     console.log(newTotal);
   };
   return (
