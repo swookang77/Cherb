@@ -1,15 +1,26 @@
-.combination {
+.container {
+  display: flex;
   text-align: center;
 }
 
-.vitaminlist {
-  position: fixed;
-  justify-self: center;
+.search-vitamin{
+  background-color: #f1f1f1;
+  width: calc(33.33%);
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 200px;
+.picked-vitamin {
+  position: fixed;
+  left: calc(33.33%);
+  width: calc(33.33%);
+  background-color: #f9f9f9;
+}
+
+.graph-vitamin{
+  position: fixed;
+  /* justify-self: flex-end; */
+  left: calc(66.66%);
+  width: calc(33.33%);
+  height: 300px;
+  background-color: #eaeaea;
 }
 
