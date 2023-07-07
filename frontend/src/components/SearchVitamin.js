@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row";
 import { v4 as uuidv4 } from "uuid";
 import { vitaminListActions } from "../vitaminList-reducer";
 import { useDispatch } from "react-redux";
-
+import { totalActions } from "../total-reducer";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   function mergeObjects(obj1, obj2) {
@@ -50,8 +50,9 @@ const VitaminList = ({ vitaminArray }) => {
       const oldTotal = JSON.parse(storedTotal);
       newTotal = mergeObjects(oldTotal, facts);
     }
-    sessionStorage.setItem('total',JSON.stringify(newTotal));
-    console.log(newTotal);
+    sessionStorage.setItem("total", JSON.stringify(newTotal));
+    //total 상태 업데이트
+    dispatch(totalActions.updateTotal(newTotal));
   };
   return (
     <Row xs={1} md={2} className="g-4">

@@ -9,7 +9,7 @@ function App() {
     <Provider store={store}>
       <div className="container">
         <div className="search-vitamin">
-          <SearchVitamin />{" "}
+          <SearchVitamin></SearchVitamin>
         </div>
         <div className="picked-vitamin">
           <PickedVitamin></PickedVitamin>

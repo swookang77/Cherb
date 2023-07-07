@@ -3,16 +3,23 @@ import vitaminListReducer from "./vitaminList-reducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
+import totalReducer from "./total-reducer";
 
-const persistConfig = {
-  key: "root",
+const vitaminListReducerPersistConfig = {
+  key: "vitaminList",
   storage,
 };
-const persistedReducer = persistReducer(persistConfig, vitaminListReducer);
+const totalReducerPersistConfig = {
+  key: "total",
+  storage,
+};
+const persistedVitaminListReducer = persistReducer(vitaminListReducerPersistConfig, vitaminListReducer);
 
+const persistedTotalReducer = persistReducer(totalReducerPersistConfig,totalReducer)
 export const store = configureStore({
   reducer: {
-    vitaminList: persistedReducer
+    vitaminList: persistedVitaminListReducer,
+    total: persistedTotalReducer,
   },
   middleware:[thunk]
 });
