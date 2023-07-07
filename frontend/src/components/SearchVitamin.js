@@ -14,7 +14,7 @@ const VitaminList = ({ vitaminArray }) => {
     for (let key in obj2) {
       if (obj1.hasOwnProperty(key)) {
         obj1[key] += obj2[key];
-        obj1[key] = obj1[key].toFixed(2);
+        obj1[key] = Number(obj1[key].toFixed(2));
       } else {
         obj1[key] = obj2[key];
       }

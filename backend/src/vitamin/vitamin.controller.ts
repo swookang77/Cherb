@@ -15,7 +15,6 @@ export class VitaminController {
   async getFacts(@Body() body) {
     const href = body.href;
     const supplementFacts = await this.vitaminService.getVitaminFacts(href);
-    console.log(supplementFacts);
     return supplementFacts;
   }
 }

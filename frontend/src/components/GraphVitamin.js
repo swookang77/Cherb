@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-
+import { connect } from "react-redux";
 const getIntroOfPage = (label) => {
   if (label === "Page A") {
     return "Page A is about men's clothing";
@@ -37,16 +37,18 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default class GraphVitamin extends PureComponent {
+class GraphVitamin extends PureComponent {
   static demoUrl = "https://codesandbox.io/s/tooltip-with-customized-content-lyxvs";
 
   render() {
+    const { totalData } = this.props;
+    console.log(totalData);
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}
           height={300}
-          // data={data}
+          data={totalData}
           margin={{
             top: 5,
             right: 30,
@@ -58,9 +60,17 @@ export default class GraphVitamin extends PureComponent {
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Bar dataKey="pv" barSize={20} fill="#8884d8" />
+          <Bar dataKey="AmountPerServing" barSize={20} fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    totalData: state.total.data,
+  };
+};
+
+export default connect(mapStateToProps)(GraphVitamin);

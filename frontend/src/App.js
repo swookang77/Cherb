@@ -15,7 +15,7 @@ function App() {
           <PickedVitamin></PickedVitamin>
         </div>
         <div className="graph-vitamin">
-          총 영양소 그래프
+          총 영양소(mg) 그래프
           <GraphVitamin></GraphVitamin>
         </div>
       </div>

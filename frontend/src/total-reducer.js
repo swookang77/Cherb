@@ -8,10 +8,10 @@ const totalSlice = createSlice({
   initialState: totalState,
   reducers: {
     updateTotal: (state, action) => {
-      const data = Object.entries(action.payload).map((key, value) => {
+      const data = Object.entries(action.payload).map((elem) => {
         return {
-          name: key.split("(")[0],
-          AmountPerServing: value,
+          name: elem[0].split("(")[0],
+          AmountPerServing: elem[1],
         };
       });
       state.data = data;
