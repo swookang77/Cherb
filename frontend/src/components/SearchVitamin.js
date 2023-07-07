@@ -5,9 +5,9 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { v4 as uuidv4 } from "uuid";
-import { vitaminListActions } from "../vitaminList-reducer";
+import { vitaminListActions } from "../reducers/vitaminList-reducer";
 import { useDispatch } from "react-redux";
-import { totalActions } from "../total-reducer";
+import { totalActions } from "../reducers/total-reducer";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   function mergeObjects(obj1, obj2) {

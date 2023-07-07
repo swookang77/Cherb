@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import vitaminListReducer from "./vitaminList-reducer";
+import vitaminListReducer from "./reducers/vitaminList-reducer";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
-import totalReducer from "./total-reducer";
+import totalReducer from "./reducers/total-reducer";
 
 const vitaminListReducerPersistConfig = {
   key: "vitaminList",
