@@ -10,6 +10,7 @@ const totalSlice = createSlice({
     updateTotal: (state, action) => {
       const data = Object.entries(action.payload).map((elem) => {
         return {
+          fullname: elem[0],
           name: elem[0].split("(")[0],
           AmountPerServing: elem[1],
         };
