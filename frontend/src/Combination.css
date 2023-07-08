@@ -4,19 +4,19 @@
 }
 
 .search-vitamin{
-  width: calc(33.33%);
+  width: calc(28.33%);
 }
 
 .picked-vitamin {
   position: fixed;
-  left: calc(33.33%);
-  width: calc(33.33%);
+  left: calc(28.33%);
+  width: calc(28.33%);
 }
 
 .graph-vitamin{
   position: fixed;
-  left: calc(66.66%);
-  width: calc(33.33%);
+  left: calc(56.66%);
+  width: calc(43.33%);
   height: 300px;
 }
 
