@@ -50,9 +50,11 @@ export class VitaminService {
         const nutrient = $(node).find('td').eq(0).contents().first().text();
         const data = $(node).find('td').eq(1).contents().first().text();
         if (
+          nutrient !== '' &&
           nutrient !== ' ' &&
           nutrient !== '하루 영양소 기준치' &&
-          data !== ''
+          data !== '' &&
+          data !== null
         ) {
           const value = data.includes('mg')
             ? parseInt(data, 10)

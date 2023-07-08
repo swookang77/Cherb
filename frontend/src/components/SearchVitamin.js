@@ -10,19 +10,18 @@ import { totalActions } from "../reducers/total-reducer";
 import { addVitaminElem } from "../reducers/vitaminList-reducer";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
-  function mergeObjects(obj1, obj2) {
-    for (let key in obj2) {
-      if (obj1.hasOwnProperty(key)) {
-        obj1[key] += obj2[key];
-        obj1[key] = Number(obj1[key].toFixed(2));
+  const dispatch = useDispatch();
+  //oldtotal과 facts(새로운 항목의 영양성분)을 인자로 받아서 oldtotal에 facts추가.
+  const mergeObjects = (oldtotal, facts) => {
+    for (let key in facts) {
+      if (oldtotal.hasOwnProperty(key)) {
+        oldtotal[key] += facts[key];
       } else {
-        obj1[key] = obj2[key];
+        oldtotal[key] = facts[key];
       }
     }
-
-    return obj1;
-  }
-  const dispatch = useDispatch();
+    return oldtotal;
+  };
   //비타민 검색창에서 추가 버튼 눌렀을 때
   const handleAddButton = async (title, href) => {
     //vitaminList상태 변경

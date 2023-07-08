@@ -10,7 +10,6 @@ const vitaminListSlice = createSlice({
   reducers: {
     //{uuid,title}을 전달받아 기존 배열에 추가.
     addVitaminElem(state, action){
-      console.log(state);
       state.data = [...state.data, action.payload];
     },
     //uuid를 전달받아 기존 배열에서 uuid와 일치하는 객체 삭제.
