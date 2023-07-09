@@ -4,6 +4,8 @@
 }
 
 .search-vitamin{
+  height: 1000px;
+  overflow: auto;
   width: calc(28.33%);
 }
 
