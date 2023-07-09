@@ -1,9 +1,6 @@
 import React, { PureComponent } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { connect } from "react-redux";
-// const getIntroOfPage = (text) => {
-//   return text;
-// };
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
