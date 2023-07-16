@@ -7,16 +7,34 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { SERVER_URL } from "../config";
 function LoginForm() {
+  const [loginId, setLoginId] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const handleLoginUser = async (event) =>{
+    event.preventDefault();
+    const userData = {
+      id: loginId,
+      password: loginPassword,
+    };
+    await axios
+      .post(`${SERVER_URL}/user/login`, userData, { withCredentials: true })
+      .then((response) => {
+        alert(response.data.message);
+        window.location.reload();
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  }
   return (
-    <Form>
+    <Form onSubmit={(event)=>handleLoginUser(event)}>
       <Form.Group className="mb-3" controlId="loginId">
         <Form.Label>ID</Form.Label>
-        <Form.Control type="id" placeholder="Enter id" />
+        <Form.Control type="id" placeholder="Enter id" onChange={(e) => setLoginId(e.target.value)}/>
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="loginPw">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Enter password" />
+        <Form.Control type="password" placeholder="Enter password" onChange={(e) => setLoginPassword(e.target.value)}/>
       </Form.Group>
       <Button variant="primary" type="submit">
         로그인
@@ -24,7 +42,7 @@ function LoginForm() {
     </Form>
   );
 }
-function JoinForm(props) {
+function JoinForm() {
   const [joinEmail, setJoinEmail] = useState("");
   const [joinId, setJoinId] = useState("");
   const [joinPassword, setJoinPassword] = useState("");
@@ -54,9 +72,11 @@ function JoinForm(props) {
       .post(`${SERVER_URL}/user/join`, userData)
       .then((response) => {
         alert(response.data.message);
+        window.location.reload();
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        if(error.response.data) alert(error.response.data.message);
+        else alert(error);
       });
   };
   return (
@@ -110,7 +130,6 @@ function LoginModal(props) {
     </Modal>
   );
 }
-
 function NavBar() {
   const [modalShow, setModalShow] = React.useState(false);
   return (
