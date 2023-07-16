@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { URL_DEV } from "../config";
+import { SERVER_URL } from "../config";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -35,7 +35,7 @@ const VitaminList = ({ vitaminArray }) => {
     const data = {
       href,
     };
-    const URL = `${URL_DEV}/vitamin/supplement-facts`;
+    const URL = `${SERVER_URL}/vitamin/supplement-facts`;
     const response = await axios.post(URL, data);
     const facts = response.data;
     //세션스토리지에 영양성분 저장.
@@ -76,7 +76,7 @@ export default function SearchVitamin() {
   const [vitaminArray, setVitamins] = useState([]);
   const handleSearchButton = async () => {
     try {
-      const URL = `${URL_DEV}/vitamin/image?search=${inputValue}`;
+      const URL = `${SERVER_URL}/vitamin/image?search=${inputValue}`;
       const response = await axios.get(URL);
       setVitamins(response.data);
     } catch (error) {

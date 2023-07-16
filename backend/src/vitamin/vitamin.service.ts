@@ -59,7 +59,8 @@ export class VitaminService {
           const value = data.includes('mg')
             ? parseInt(data, 10)
             : parseInt(data, 10) / 1000;
-          supplementFacts[nutrient] = value;
+          const nutrientTrim = nutrient.trim();
+          supplementFacts[nutrientTrim] = value;
         }
       }
     });
