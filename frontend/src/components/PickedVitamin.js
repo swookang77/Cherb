@@ -28,9 +28,7 @@ export default function PickedVitamin() {
   //삭제 버튼
   const handleDelete = (uuid) => {
     const facts = JSON.parse(sessionStorage.getItem(uuid));
-    console.log(facts);
     const oldtotal = JSON.parse(sessionStorage.getItem("total"));
-    console.log(oldtotal);
     //세션스토리지에서 해당하는 항목 삭제 & vitaminList상태 갱신
     sessionStorage.removeItem(uuid);
     dispatch(deleteVitaminElem(uuid));

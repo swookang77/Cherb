@@ -6,11 +6,14 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoggedInActions } from "../reducers/is-logged-in";
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const dispatch = useDispatch();
 
-  const handleLoginUser = async (event) =>{
+  const handleLoginUser = async (event) => {
     event.preventDefault();
     const userData = {
       id: loginId,
@@ -20,21 +23,22 @@ function LoginForm() {
       .post(`${SERVER_URL}/user/login`, userData, { withCredentials: true })
       .then((response) => {
         alert(response.data.message);
+        dispatch(isLoggedInActions.true());
         window.location.reload();
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
-  }
+  };
   return (
-    <Form onSubmit={(event)=>handleLoginUser(event)}>
+    <Form onSubmit={(event) => handleLoginUser(event)}>
       <Form.Group className="mb-3" controlId="loginId">
         <Form.Label>ID</Form.Label>
-        <Form.Control type="id" placeholder="Enter id" onChange={(e) => setLoginId(e.target.value)}/>
+        <Form.Control type="id" placeholder="Enter id" onChange={(e) => setLoginId(e.target.value)} />
       </Form.Group>
       <Form.Group className="mb-3" controlId="loginPw">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Enter password" onChange={(e) => setLoginPassword(e.target.value)}/>
+        <Form.Control type="password" placeholder="Enter password" onChange={(e) => setLoginPassword(e.target.value)} />
       </Form.Group>
       <Button variant="primary" type="submit">
         로그인
@@ -75,7 +79,7 @@ function JoinForm() {
         window.location.reload();
       })
       .catch((error) => {
-        if(error.response.data) alert(error.response.data.message);
+        if (error.response.data) alert(error.response.data.message);
         else alert(error);
       });
   };
@@ -102,18 +106,18 @@ function JoinForm() {
   );
 }
 function LoginModal(props) {
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [isLoginForm, setIsLoginForm] = React.useState(true);
   const handleJoinClick = () => {
-    setIsLogin(false);
+    setIsLoginForm(false);
   };
   const handleLoginClick = () => {
-    setIsLogin(true);
+    setIsLoginForm(true);
   };
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Header closeButton>{isLogin ? <h1>로그인</h1> : <h1>회원가입</h1>}</Modal.Header>
+      <Modal.Header closeButton>{isLoginForm ? <h1>로그인</h1> : <h1>회원가입</h1>}</Modal.Header>
       <Modal.Body>
-        {isLogin ? (
+        {isLoginForm ? (
           <p>
             <LoginForm></LoginForm>
           </p>
@@ -124,7 +128,7 @@ function LoginModal(props) {
         )}
       </Modal.Body>
       <Modal.Footer>
-        {isLogin ? <Button onClick={handleJoinClick}>회원가입 하러 가기</Button> : <Button onClick={handleLoginClick}>로그인 하러 가기</Button>}
+        {isLoginForm ? <Button onClick={handleJoinClick}>회원가입 하러 가기</Button> : <Button onClick={handleLoginClick}>로그인 하러 가기</Button>}
         {/* <Button onClick={props.onHide}>Close</Button> */}
       </Modal.Footer>
     </Modal>
@@ -132,6 +136,7 @@ function LoginModal(props) {
 }
 function NavBar() {
   const [modalShow, setModalShow] = React.useState(false);
+  const isLoggedIn = useSelector((state)=>state.isLoggedIn.data);
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -139,9 +144,13 @@ function NavBar() {
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
             <>
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                Login
-              </Button>
+              {isLoggedIn ? (
+                <div>로그인확인</div>
+              ) : (
+                <Button variant="primary" onClick={() => setModalShow(true)}>
+                  Login
+                </Button>
+              )}
               <LoginModal show={modalShow} onHide={() => setModalShow(false)} />
             </>
           </Navbar.Text>

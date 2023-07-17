@@ -43,7 +43,9 @@ export class UserController {
       );
     //jwt발급
     const jwt = await this.authService.signIn(id);
-    response.cookie('accesstoken', jwt.access_token);
+    response.cookie('accesstoken', jwt.access_token, {
+      httpOnly: true,
+    });
     return { message: 'login success' };
   }
 }
