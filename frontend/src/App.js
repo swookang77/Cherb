@@ -7,6 +7,8 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import MyVitamin from "./components/MyVitamin";
+import MyGraph from "./components/MyGraph";
 function App() {
   return (
     <Provider store={store}>
@@ -33,7 +35,24 @@ function App() {
                 </div>
               </div>
             }></Route>
-          <Route path="/test" element={<NavBar></NavBar>}></Route>
+          <Route
+            path="/combination"
+            element={
+              <div>
+                <div className="navBar">
+                  <NavBar></NavBar>
+                </div>
+                <div className="container-mypage">
+                  <div className="picked-vitamin">
+                  <MyVitamin></MyVitamin>
+                  </div>
+                  <div className="graph-vitamin">
+                    총 영양소(mg) 그래프
+                    <MyGraph></MyGraph>
+                  </div>
+                </div>
+              </div>
+            }></Route>
         </Routes>
       </BrowserRouter>
     </Provider>

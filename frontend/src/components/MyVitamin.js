@@ -1,13 +1,12 @@
 import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useSelector } from "react-redux";
-import { resetSpecificKey } from "../store";
 import { useDispatch } from "react-redux";
-import { deleteVitaminElem } from "../reducers/vitaminList-reducer";
 import { totalActions } from "../reducers/total-reducer";
-export default function PickedVitamin() {
+import { myVitaminListActions } from "../reducers/my-vitaminList-reducer";
+export default function MyVitamin() {
   const dispatch = useDispatch();
-  const vitaminList = useSelector((state) => state.vitaminList.data);
+  const vitaminList = useSelector((state) => state.myVitaminList.data);
   const deleteObjects = (oldtotal, facts) => {
     for (let key in facts) {
       const deleteValue = facts[key];
@@ -19,23 +18,17 @@ export default function PickedVitamin() {
     }
     return oldtotal;
   };
-  //초기화 버튼.
-  const handleReset = () => {
-    resetSpecificKey('vitaminList');
-    resetSpecificKey('total');
-    sessionStorage.clear();
-    window.location.reload();
-  };
   //삭제 버튼
   const handleDelete = (uuid) => {
     const facts = JSON.parse(sessionStorage.getItem(uuid));
     const oldtotal = JSON.parse(sessionStorage.getItem("total"));
     //세션스토리지에서 해당하는 항목 삭제 & vitaminList상태 갱신
     sessionStorage.removeItem(uuid);
-    dispatch(deleteVitaminElem(uuid));
+    dispatch(myVitaminListActions.deleteMyVitaminElem(uuid));
     //newtotal생성  & 세션스토리지에 저장 & 상태 갱신
     const newTotal = deleteObjects(oldtotal, facts);
     sessionStorage.setItem("total", JSON.stringify(newTotal));
+    //여기 수정필요.
     dispatch(totalActions.updateTotal(newTotal));
   };
   return (
@@ -48,7 +41,6 @@ export default function PickedVitamin() {
             <button onClick={() => handleDelete(item.uuid)}>삭제</button>
           </ListGroup.Item>
         ))}
-        <button onClick={handleReset}>초기화</button>
       </ListGroup>
     </div>
   );

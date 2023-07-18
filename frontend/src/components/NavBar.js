@@ -8,6 +8,7 @@ import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedInActions } from "../reducers/is-logged-in";
+import { useLocation, useNavigate } from "react-router-dom";
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -136,7 +137,11 @@ function LoginModal(props) {
 }
 function NavBar() {
   const [modalShow, setModalShow] = React.useState(false);
-  const isLoggedIn = useSelector((state)=>state.isLoggedIn.data);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.data);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isCombinationPage = location.pathname === "/combination";
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -144,9 +149,12 @@ function NavBar() {
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
             <>
-              {isLoggedIn ? (
-                <div>로그인확인</div>
-              ) : (
+              {isLoggedIn && !isCombinationPage && (
+                <Button variant="primary" onClick={() => navigate("combination")}>
+                  마이 페이지
+                </Button>
+              )}
+              {!isLoggedIn && (
                 <Button variant="primary" onClick={() => setModalShow(true)}>
                   Login
                 </Button>

@@ -21,3 +21,8 @@
   height: 300px;
 }
 
+.container-mypage {
+  display: flex;
+  text-align:center;
+  justify-content: center;
+}
