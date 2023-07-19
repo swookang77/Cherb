@@ -50,15 +50,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
-export const resetSpecificKey = (key) => {
-  persistor.pause(); // persistor 일시 중지
-
-  const state = store.getState();
-  const persistedKey = `${key}PersistConfig`;
-
-  if (state[persistedKey]) {
-    persistor.purge([persistedKey]); // 특정 키의 상태 초기화
-  }
-  persistor.persist(); // persistor 다시 시작
-};
