@@ -6,13 +6,10 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { SERVER_URL } from "../config";
-import { useDispatch, useSelector } from "react-redux";
-import { isLoggedInActions } from "../reducers/is-logged-in";
 import { useLocation, useNavigate } from "react-router-dom";
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const dispatch = useDispatch();
 
   const handleLoginUser = async (event) => {
     event.preventDefault();
@@ -24,7 +21,6 @@ function LoginForm() {
       .post(`${SERVER_URL}/user/login`, userData, { withCredentials: true })
       .then((response) => {
         alert(response.data.message);
-        dispatch(isLoggedInActions.true());
         window.location.reload();
       })
       .catch((error) => {
@@ -137,7 +133,7 @@ function LoginModal(props) {
 }
 function NavBar() {
   const [modalShow, setModalShow] = React.useState(false);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn.data);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const isCombinationPage = location.pathname === "/combination";

@@ -24,10 +24,6 @@ const myTotalReducerPersistConfig = {
   key: "myTotal",
   storage,
 };
-const isLoggedInReducerPersistConfig = {
-  key: "isLoggedIn",
-  storage,
-};
 const persistedVitaminListReducer = persistReducer(vitaminListReducerPersistConfig, vitaminListReducer);
 
 const persistedTotalReducer = persistReducer(totalReducerPersistConfig, totalReducer);
@@ -36,13 +32,11 @@ const persistedMyVitaminListReducer = persistReducer(myVitaminListReducerPersist
 
 const persistedMyTotalReducer = persistReducer(myTotalReducerPersistConfig,myTotalReducer);
 
-const persistedIsLoggedInReducer = persistReducer(isLoggedInReducerPersistConfig, isLoggedInReducer);
 
 export const store = configureStore({
   reducer: {
     vitaminList: persistedVitaminListReducer,
     total: persistedTotalReducer,
-    isLoggedIn: persistedIsLoggedInReducer,
     myVitaminList: persistedMyVitaminListReducer,
     myTotal: persistedMyTotalReducer,
   },
