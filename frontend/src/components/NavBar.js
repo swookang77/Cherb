@@ -1,6 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -131,13 +131,29 @@ function LoginModal(props) {
     </Modal>
   );
 }
+
 function NavBar() {
   const [modalShow, setModalShow] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const isCombinationPage = location.pathname === "/combination";
-
+  const api = axios.create({
+    baseURL: SERVER_URL,
+    withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
+  });
+  //jwt유효성 검사해서 isLoggedIn상태 갱신.
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const response = await api.get(`${SERVER_URL}/auth`);
+        setIsLoggedIn(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    check();
+  });
   return (
     <Navbar className="bg-body-tertiary">
       <Container>

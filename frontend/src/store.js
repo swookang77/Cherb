@@ -6,7 +6,6 @@ import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 import totalReducer from "./reducers/total-reducer";
 import myTotalReducer from "./reducers/my-total-reducer";
-import isLoggedInReducer from "./reducers/is-logged-in";
 
 const vitaminListReducerPersistConfig = {
   key: "vitaminList",
