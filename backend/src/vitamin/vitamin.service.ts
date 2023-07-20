@@ -125,4 +125,12 @@ export class VitaminService {
       return [];
     }
   }
+  async getTotal(uuid: string) {
+    const item = await this.combinationModel.findById({ _id: uuid });
+    if (item) {
+      return item.total;
+    } else {
+      return [];
+    }
+  }
 }

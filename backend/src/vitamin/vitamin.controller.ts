@@ -46,4 +46,10 @@ export class VitaminController {
     const combiList = await this.vitaminService.getCombiList(id);
     return combiList;
   }
+  @Post('/total')
+  async getTotal(@Body() body) {
+    const uuid = body.uuid;
+    const total = await this.vitaminService.getTotal(uuid);
+    return total;
+  }
 }

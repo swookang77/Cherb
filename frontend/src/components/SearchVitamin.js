@@ -50,6 +50,7 @@ const VitaminList = ({ vitaminArray }) => {
       newTotal = mergeObjects(oldTotal, facts);
     }
     sessionStorage.setItem("total", JSON.stringify(newTotal));
+    console.log(newTotal);
     //total 상태 업데이트
     dispatch(totalActions.updateTotal(newTotal));
   };
