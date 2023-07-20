@@ -12,7 +12,7 @@ export default function PickedVitamin() {
   const dispatch = useDispatch();
   const vitaminList = useSelector((state) => state.vitaminList.data);
   const [inputValue, setInputValue] = useState("");
-  const total = useSelector((state)=>state.total.data);
+  const total = useSelector((state) => state.total.data);
   const deleteObjects = (oldtotal, facts) => {
     for (let key in facts) {
       const deleteValue = facts[key];
@@ -50,10 +50,26 @@ export default function PickedVitamin() {
     const saveTotal = total;
     const body = {
       uuid,
-      title:inputValue,
-      total:saveTotal,
+      title: inputValue,
+      total: saveTotal,
+    };
+    const api = axios.create({
+      baseURL: SERVER_URL,
+      withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
+    });
+    try {
+      const response = await api.post(URL,body);
+      const message = response.data.message;
+      alert(message);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("로그인 해주세요");
+        window.location.reload();
+      } else {
+        alert(error.response.data.message);
+      }
     }
-    axios.post(URL,body)
+    setInputValue('')
   };
   const handleInputChange = (e) => {
     setInputValue(e.target.value);

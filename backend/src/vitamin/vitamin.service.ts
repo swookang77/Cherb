@@ -1,10 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { VitaminAttrDto } from './dto/get-vitamin-attr.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Combination } from './schema/combination.schema';
+import { CombiList } from './schema/combiList.schema';
 
 @Injectable()
 export class VitaminService {
+  constructor(
+    @InjectModel('Combination') private combinationModel: Model<Combination>,
+    @InjectModel('CombiList') private combiListModel: Model<CombiList>,
+  ) {}
   async getVitaminAttr(search: string): Promise<VitaminAttrDto[]> {
     const searchUrl = `https://kr.iherb.com/search?kw=${search}`;
     //iherb에 검색.
@@ -65,5 +73,48 @@ export class VitaminService {
       }
     });
     return supplementFacts;
+  }
+  async saveCombination(
+    uuid: string,
+    id: string,
+    title: string,
+    total: Array<object>,
+  ): Promise<void> {
+    const newCombination = new this.combinationModel({
+      _id: uuid,
+      id,
+      title,
+      total,
+    });
+    try {
+      await newCombination.save();
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        'Failed to save combination data.',
+      );
+    }
+    return;
+  }
+  async addCombiList(id: string, uuid: string, title: string) {
+    const item = await this.combiListModel.findById({ _id: id });
+    const newElem = { uuid, title };
+    try {
+      if (item) {
+        await this.combiListModel.updateOne(
+          { _id: id },
+          { $push: { combiList: newElem } },
+        );
+      } else {
+        const newitem = new this.combiListModel({
+          _id: id,
+          combiList: newElem,
+        });
+        await newitem.save();
+      }
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Failed to save combiList data.');
+    }
   }
 }

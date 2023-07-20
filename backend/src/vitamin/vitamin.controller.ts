@@ -3,7 +3,6 @@ import { VitaminService } from './vitamin.service';
 import { SaveCombinationDto } from './dto/save-Combination.dto';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
-// import Vitamin from './models/vitamin.model';
 
 @Controller('vitamin')
 export class VitaminController {
@@ -24,14 +23,18 @@ export class VitaminController {
     return supplementFacts;
   }
 
+  //유저의 조합 저장.
   @Post('/combination')
   async saveCombination(
     @Body() saveCombinationDto: SaveCombinationDto,
     @Req() request: Request,
   ) {
-    console.log(saveCombinationDto);
-    const accessToken = request.headers.cookie;
-    console.log(accessToken);
-    return;
+    const { uuid, title, total } = saveCombinationDto;
+    const accesstoken = request.cookies['accesstoken'];
+    this.authService.canActivate(accesstoken);
+    const id = this.authService.getId(accesstoken);
+    await this.vitaminService.saveCombination(uuid, id, title, total);
+    await this.vitaminService.addCombiList(id, uuid, title);
+    return { message: '저장완료' };
   }
 }

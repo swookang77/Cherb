@@ -17,4 +17,10 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
+  getId(token: string) {
+    const decode = this.jwtService.decode(token) as { id: string };
+    const id = decode.id;
+    console.log(id);
+    return id;
+  }
 }
