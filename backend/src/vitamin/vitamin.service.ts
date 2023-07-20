@@ -97,9 +97,9 @@ export class VitaminService {
     return;
   }
   async addCombiList(id: string, uuid: string, title: string) {
-    const item = await this.combiListModel.findById({ _id: id });
-    const newElem = { uuid, title };
     try {
+      const item = await this.combiListModel.findById({ _id: id });
+      const newElem = { uuid, title };
       if (item) {
         await this.combiListModel.updateOne(
           { _id: id },
@@ -115,6 +115,14 @@ export class VitaminService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Failed to save combiList data.');
+    }
+  }
+  async getCombiList(id: string) {
+    const item = await this.combiListModel.findById({ _id: id });
+    if (item) {
+      return item.combiList;
+    } else {
+      return [];
     }
   }
 }

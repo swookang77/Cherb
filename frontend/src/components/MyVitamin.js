@@ -1,41 +1,32 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { totalActions } from "../reducers/total-reducer";
-import { myVitaminListActions } from "../reducers/my-vitaminList-reducer";
+import { SERVER_URL } from "../config";
+
 export default function MyVitamin() {
-  const dispatch = useDispatch();
-  const vitaminList = useSelector((state) => state.myVitaminList.data);
-  const deleteObjects = (oldtotal, facts) => {
-    for (let key in facts) {
-      const deleteValue = facts[key];
-      oldtotal[key] -= deleteValue;
-      const newValue = oldtotal[key];
-      if (newValue < deleteValue / 2 || isNaN(newValue) || newValue === null || newValue===0) {
-        delete oldtotal[key];
+  const [combiList, setCombiList] = useState([]);
+  useEffect(() => {
+    const api = axios.create({
+      baseURL: SERVER_URL,
+      withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
+    });
+    const getCombiList = async () => {
+      try {
+        const response = await api.get(`${SERVER_URL}/vitamin/combiList`);
+        setCombiList(response.data);
+      } catch (error) {
+        console.error(error);
       }
-    }
-    return oldtotal;
-  };
-  //삭제 버튼
+    };
+    getCombiList();
+  }, []);
   const handleDelete = (uuid) => {
-    const facts = JSON.parse(sessionStorage.getItem(uuid));
-    const oldtotal = JSON.parse(sessionStorage.getItem("total"));
-    //세션스토리지에서 해당하는 항목 삭제 & vitaminList상태 갱신
-    sessionStorage.removeItem(uuid);
-    dispatch(myVitaminListActions.deleteMyVitaminElem(uuid));
-    //newtotal생성  & 세션스토리지에 저장 & 상태 갱신
-    const newTotal = deleteObjects(oldtotal, facts);
-    sessionStorage.setItem("total", JSON.stringify(newTotal));
-    //여기 수정필요.
-    dispatch(totalActions.updateTotal(newTotal));
   };
   return (
     <div>
       영양제 리스트
       <ListGroup>
-        {vitaminList.map((item, index) => (
+        {combiList.map((item, index) => (
           <ListGroup.Item key={index}>
             {item.title}
             <button onClick={() => handleDelete(item.uuid)}>삭제</button>

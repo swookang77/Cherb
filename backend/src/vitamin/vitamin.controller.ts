@@ -37,4 +37,13 @@ export class VitaminController {
     await this.vitaminService.addCombiList(id, uuid, title);
     return { message: '저장완료' };
   }
+
+  @Get('/combiList')
+  async getCombiList(@Req() request: Request) {
+    const accesstoken = request.cookies['accesstoken'];
+    this.authService.canActivate(accesstoken);
+    const id = this.authService.getId(accesstoken);
+    const combiList = await this.vitaminService.getCombiList(id);
+    return combiList;
+  }
 }
