@@ -3,3 +3,8 @@ export default interface Vitamin {
   title: string;
   supplementFacts: object;
 }
+
+export interface combiListElem {
+  uuid: string;
+  title: string;
+}

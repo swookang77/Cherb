@@ -27,14 +27,22 @@ export default function MyVitamin() {
     };
     getCombiList();
   }, []);
-  const handleDelete = (uuid) => {};
+  const handleDelete = async (uuid) => {
+    try {
+      const response = await api.delete(`${SERVER_URL}/vitamin/delete`, { params: { uuid } });
+      alert(response.data.message);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleShow = async (uuid) => {
     try {
-      const response = await api.post(`${SERVER_URL}/vitamin/total`,{uuid});
+      const response = await api.get(`${SERVER_URL}/vitamin/total`, { params:{uuid} });
       const total = response.data;
       console.log(total);
       //total상태 갱신.
-      dispatch(myTotalActions.updateMyTotal(total))
+      dispatch(myTotalActions.updateMyTotal(total));
     } catch (error) {
       console.error(error);
     }

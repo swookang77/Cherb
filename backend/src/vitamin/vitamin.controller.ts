@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { VitaminService } from './vitamin.service';
 import { SaveCombinationDto } from './dto/save-Combination.dto';
 import { Request } from 'express';
@@ -46,10 +54,16 @@ export class VitaminController {
     const combiList = await this.vitaminService.getCombiList(id);
     return combiList;
   }
-  @Post('/total')
-  async getTotal(@Body() body) {
-    const uuid = body.uuid;
+  @Get('/total')
+  async getTotal(@Query('uuid') uuid: string) {
     const total = await this.vitaminService.getTotal(uuid);
     return total;
+  }
+  @Delete('/delete')
+  async deleteCombi(@Query('uuid') uuid: string, @Req() request: Request) {
+    const accesstoken = request.cookies['accesstoken'];
+    this.authService.canActivate(accesstoken);
+    const id = this.authService.getId(accesstoken);
+    return await this.vitaminService.deleteCombi(uuid, id);
   }
 }

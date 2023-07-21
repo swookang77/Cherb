@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Combination } from './schema/combination.schema';
 import { CombiList } from './schema/combiList.schema';
+import { combiListElem } from './models/vitamin.model';
 
 @Injectable()
 export class VitaminService {
@@ -118,19 +119,42 @@ export class VitaminService {
     }
   }
   async getCombiList(id: string) {
-    const item = await this.combiListModel.findById({ _id: id });
-    if (item) {
-      return item.combiList;
-    } else {
-      return [];
+    try {
+      const item = await this.combiListModel.findById({ _id: id });
+      if (item) {
+        return item.combiList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to get CombiList');
     }
   }
   async getTotal(uuid: string) {
-    const item = await this.combinationModel.findById({ _id: uuid });
-    if (item) {
-      return item.total;
-    } else {
-      return [];
+    try {
+      const item = await this.combinationModel.findById({ _id: uuid });
+      if (item) {
+        return item.total;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to get Total');
+    }
+  }
+  async deleteCombi(uuid: string, id: string) {
+    try {
+      await this.combinationModel.deleteOne({ _id: uuid });
+      const item = await this.combiListModel.findOne({ _id: id });
+      const combiList = item.combiList as combiListElem[];
+      const newCombiList = combiList.filter((elem) => elem.uuid !== uuid);
+      await this.combiListModel.updateOne(
+        { _id: id },
+        { $set: { combiList: newCombiList } },
+      );
+      return { message: '삭제 완료' };
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to delete combi');
     }
   }
 }
