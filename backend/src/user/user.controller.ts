@@ -18,7 +18,7 @@ export class UserController {
     if (isExistId) throw new HttpException('id already exists', 409);
     const user = this.userService.create(id, password, email);
     await this.userService.save(user);
-    return { message: 'join success' };
+    return { message: '회원가입 완료. 로그인 해주세요.' };
   }
 
   @Post('/login')
@@ -46,6 +46,6 @@ export class UserController {
     response.cookie('accesstoken', jwt.access_token, {
       httpOnly: true,
     });
-    return { message: 'login success' };
+    return { message: '로그인 완료' };
   }
 }
