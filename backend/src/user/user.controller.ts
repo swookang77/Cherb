@@ -45,6 +45,8 @@ export class UserController {
     const jwt = await this.authService.signIn(id);
     response.cookie('accesstoken', jwt.access_token, {
       httpOnly: true,
+      secure: true,
+      sameSite: 'none',
     });
     return { message: '로그인 완료' };
   }

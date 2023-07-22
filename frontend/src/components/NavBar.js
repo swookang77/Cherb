@@ -140,9 +140,11 @@ function NavBar() {
   const isCombinationPage = location.pathname === "/combination";
   const api = axios.create({
     baseURL: SERVER_URL,
-    withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
+    withCredentials: true, // 쿠키 전송을 위한 옵션 설정
   });
-  //jwt유효성 검사해서 isLoggedIn상태 갱신.
+  //새로고침시 jwt유효성 검사해서 isLoggedIn상태 갱신.
+  //isLoggedIn상태에 따라 login버튼 <-> 마이페이지 버튼.
+  //더 효율적인 방식으로 개선 필요. 
   useEffect(() => {
     const check = async () => {
       try {
