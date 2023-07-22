@@ -89,6 +89,9 @@ export default function SearchVitamin() {
   };
   return (
     <div>
+      <div>
+        영양제 검색
+      </div>
       <input type="text" value={inputValue} onChange={handleInputChange} />
       <button onClick={handleSearchButton}>검색하기</button>
       <VitaminList vitaminArray={vitaminArray}></VitaminList>
