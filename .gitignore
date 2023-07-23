@@ -50,3 +50,5 @@ yarn-error.log*
 
 frontend/src/config.js
 backend/src/config.ts
+
+config/

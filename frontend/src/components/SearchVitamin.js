@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../config";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -8,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { totalActions } from "../reducers/total-reducer";
 import { addVitaminElem } from "../reducers/vitaminList-reducer";
+import { SERVER_URL } from "../config/config";
 //VitaminSearch컴포넌트에서 검색한 결과를 나타낼 컴포넌트
 const VitaminList = ({ vitaminArray }) => {
   const dispatch = useDispatch();

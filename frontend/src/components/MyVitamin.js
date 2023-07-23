@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
-import { SERVER_URL } from "../config";
 import { useDispatch } from "react-redux";
 import { myTotalActions } from "../reducers/my-total-reducer";
+import { SERVER_URL } from "../config/config";
 
 export default function MyVitamin() {
   const [combiList, setCombiList] = useState([]);

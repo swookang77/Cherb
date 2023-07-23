@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { deleteVitaminElem } from "../reducers/vitaminList-reducer";
 import { totalActions } from "../reducers/total-reducer";
-import { SERVER_URL } from "../config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { SERVER_URL } from "../config/config";
 
 export default function PickedVitamin() {
   const dispatch = useDispatch();

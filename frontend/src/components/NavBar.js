@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import { SERVER_URL } from "../config";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../config/config";
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
