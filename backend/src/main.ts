@@ -19,6 +19,6 @@ async function bootstrap() {
     credentials: true,
   });
   app.use(cookieParser());
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(443, '0.0.0.0');
 }
 bootstrap();
