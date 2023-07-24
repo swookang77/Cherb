@@ -18,7 +18,11 @@ export class VitaminController {
     private vitaminService: VitaminService,
     private authService: AuthService,
   ) {}
-
+  
+  @Get()
+  test(){
+    return 'hi';
+  }
   @Get('/image')
   getImage(@Query('search') search: string) {
     const result = this.vitaminService.getVitaminAttr(search);
