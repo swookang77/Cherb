@@ -7,6 +7,9 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { SERVER_URL } from "../config/config";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { myTotalActions } from "../reducers/my-total-reducer";
+import { myVitaminListActions } from "../reducers/my-vitamin-reducer";
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -133,6 +136,7 @@ function LoginModal(props) {
 }
 
 function NavBar() {
+  const dispatch = useDispatch();
   const [modalShow, setModalShow] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const navigate = useNavigate();
@@ -142,9 +146,14 @@ function NavBar() {
     baseURL: SERVER_URL,
     withCredentials: true, // 쿠키 전송을 위한 옵션 설정
   });
+  const handleMyPage = () => {
+    navigate("combination");
+    dispatch(myTotalActions.updateMyTotal([]));
+    dispatch(myVitaminListActions.updateMyVitaminList([]));
+  };
   //새로고침시 jwt유효성 검사해서 isLoggedIn상태 갱신.
   //isLoggedIn상태에 따라 login버튼 <-> 마이페이지 버튼.
-  //더 효율적인 방식으로 개선 필요. 
+  //더 효율적인 방식으로 개선 필요.
   useEffect(() => {
     const check = async () => {
       try {
@@ -156,6 +165,7 @@ function NavBar() {
     };
     check();
   });
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -164,7 +174,7 @@ function NavBar() {
           <Navbar.Text>
             <>
               {isLoggedIn && !isCombinationPage && (
-                <Button variant="primary" onClick={() => navigate("combination")}>
+                <Button variant="primary" onClick={handleMyPage}>
                   마이 페이지
                 </Button>
               )}

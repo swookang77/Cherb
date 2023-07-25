@@ -33,13 +33,15 @@ export default function MyCombination() {
       const response = await api.delete(`${SERVER_URL}/vitamin/delete`, { params: { uuid } });
       alert(response.data.message);
       window.location.reload();
+      dispatch(myTotalActions.updateMyTotal([]));
+      dispatch(myVitaminListActions.updateMyVitaminList([]));
     } catch (error) {
       console.error(error);
     }
   };
   const handleShow = async (uuid) => {
     try {
-      const response = await api.get(`${SERVER_URL}/vitamin/combination`, { params:{uuid} });
+      const response = await api.get(`${SERVER_URL}/vitamin/combination`, { params: { uuid } });
       const total = response.data.total;
       const vitaminList = response.data.vitaminList;
       dispatch(myTotalActions.updateMyTotal(total));
