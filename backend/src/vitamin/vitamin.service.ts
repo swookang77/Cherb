@@ -7,13 +7,14 @@ import { Model } from 'mongoose';
 import { Combination } from './schema/combination.schema';
 import { CombiList } from './schema/combiList.schema';
 import { combiListElem } from './models/vitamin.model';
+import CombinationData from './models/combination-data.model';
 
 @Injectable()
 export class VitaminService {
   constructor(
     @InjectModel('Combination') private combinationModel: Model<Combination>,
     @InjectModel('CombiList') private combiListModel: Model<CombiList>,
-  ) {}
+  ) { }
   async getVitaminAttr(search: string): Promise<VitaminAttrDto[]> {
     const searchUrl = `https://kr.iherb.com/search?kw=${search}`;
     //iherb에 검색.
@@ -132,14 +133,15 @@ export class VitaminService {
       throw new InternalServerErrorException('Failed to get CombiList');
     }
   }
-  async getTotal(uuid: string) {
+  async getCombinationData(uuid: string) {
     try {
       const item = await this.combinationModel.findById({ _id: uuid });
+      const combinationData: CombinationData = { total: [], vitaminList: [] };
       if (item) {
-        return item.total;
-      } else {
-        return [];
+        combinationData.total = item.total;
+        combinationData.vitaminList = item.vitaminList;
       }
+      return combinationData
     } catch (error) {
       throw new InternalServerErrorException('Failed to get Total');
     }

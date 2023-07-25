@@ -11,6 +11,7 @@ import { VitaminService } from './vitamin.service';
 import { SaveCombinationDto } from './dto/save-Combination.dto';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import CombinationData from './models/combination-data.model';
 
 @Controller('vitamin')
 export class VitaminController {
@@ -58,10 +59,10 @@ export class VitaminController {
     const combiList = await this.vitaminService.getCombiList(id);
     return combiList;
   }
-  @Get('/total')
-  async getTotal(@Query('uuid') uuid: string) {
-    const total = await this.vitaminService.getTotal(uuid);
-    return total;
+  //유저가 클릭한 조합에 해당하는 total , vitaminList 응답. 
+  @Get('/combination')
+  async getTotal(@Query('uuid') uuid: string): Promise<CombinationData> {
+    return await this.vitaminService.getCombinationData(uuid);
   }
   @Delete('/delete')
   async deleteCombi(@Query('uuid') uuid: string, @Req() request: Request) {
