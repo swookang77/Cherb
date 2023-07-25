@@ -12,6 +12,8 @@ export class Combination {
   @Prop()
   title: string;
   @Prop()
+  vitaminList: Array<object>;
+  @Prop()
   total: Array<object>;
 }
 //Post스키마 생성

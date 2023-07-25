@@ -41,11 +41,11 @@ export class VitaminController {
     @Body() saveCombinationDto: SaveCombinationDto,
     @Req() request: Request,
   ) {
-    const { uuid, title, total } = saveCombinationDto;
+    const { uuid, title,vitaminList ,total } = saveCombinationDto;
     const accesstoken = request.cookies['accesstoken'];
     this.authService.canActivate(accesstoken);
     const id = this.authService.getId(accesstoken);
-    await this.vitaminService.saveCombination(uuid, id, title, total);
+    await this.vitaminService.saveCombination(uuid, id, title,vitaminList,total);
     await this.vitaminService.addCombiList(id, uuid, title);
     return { message: '저장완료' };
   }

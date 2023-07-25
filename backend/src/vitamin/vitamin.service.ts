@@ -79,12 +79,14 @@ export class VitaminService {
     uuid: string,
     id: string,
     title: string,
+    vitaminList: Array<object>,
     total: Array<object>,
   ): Promise<void> {
     const newCombination = new this.combinationModel({
       _id: uuid,
       id,
       title,
+      vitaminList,
       total,
     });
     try {
