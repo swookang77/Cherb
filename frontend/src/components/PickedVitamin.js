@@ -47,18 +47,18 @@ export default function PickedVitamin() {
   const handleSaveButton = async () => {
     const URL = `${SERVER_URL}/vitamin/combination`;
     const uuid = uuidv4();
-    const saveTotal = total;
     const body = {
       uuid,
       title: inputValue,
-      total: saveTotal,
+      vitaminList,
+      total,
     };
     const api = axios.create({
       baseURL: SERVER_URL,
       withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
     });
     try {
-      const response = await api.post(URL,body);
+      const response = await api.post(URL, body);
       const message = response.data.message;
       alert(message);
     } catch (error) {
@@ -69,7 +69,7 @@ export default function PickedVitamin() {
         alert(error.response.data.message);
       }
     }
-    setInputValue('')
+    setInputValue("");
   };
   const handleInputChange = (e) => {
     setInputValue(e.target.value);

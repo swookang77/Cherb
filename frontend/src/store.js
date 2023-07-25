@@ -5,9 +5,14 @@ import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 import totalReducer from "./reducers/total-reducer";
 import myTotalReducer from "./reducers/my-total-reducer";
+import myVitaminReducer from "./reducers/my-vitamin-reducer";
 
 const vitaminListReducerPersistConfig = {
   key: "vitaminList",
+  storage,
+};
+const myVitaminListReducerPersistConfig = {
+  key: "myVitaminList",
   storage,
 };
 const totalReducerPersistConfig = {
@@ -21,6 +26,9 @@ const myTotalReducerPersistConfig = {
 };
 const persistedVitaminListReducer = persistReducer(vitaminListReducerPersistConfig, vitaminListReducer);
 
+const persistedMyVitaminListReducer = persistReducer(myVitaminListReducerPersistConfig, myVitaminReducer);
+
+
 const persistedTotalReducer = persistReducer(totalReducerPersistConfig, totalReducer);
 
 
@@ -30,6 +38,7 @@ const persistedMyTotalReducer = persistReducer(myTotalReducerPersistConfig,myTot
 export const store = configureStore({
   reducer: {
     vitaminList: persistedVitaminListReducer,
+    myVitaminList: persistedMyVitaminListReducer,
     total: persistedTotalReducer,
     myTotal: persistedMyTotalReducer,
   },
