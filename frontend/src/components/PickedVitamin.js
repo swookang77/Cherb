@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { deleteVitaminElem } from "../reducers/vitaminList-reducer";
 import { totalActions } from "../reducers/total-reducer";
+import { SERVER_URL } from "../config/config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { SERVER_URL } from "../config/config";
@@ -47,18 +48,18 @@ export default function PickedVitamin() {
   const handleSaveButton = async () => {
     const URL = `${SERVER_URL}/vitamin/combination`;
     const uuid = uuidv4();
-    const saveTotal = total;
     const body = {
       uuid,
       title: inputValue,
-      total: saveTotal,
+      vitaminList,
+      total,
     };
     const api = axios.create({
       baseURL: SERVER_URL,
       withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
     });
     try {
-      const response = await api.post(URL,body);
+      const response = await api.post(URL, body);
       const message = response.data.message;
       alert(message);
     } catch (error) {
@@ -69,7 +70,7 @@ export default function PickedVitamin() {
         alert(error.response.data.message);
       }
     }
-    setInputValue('')
+    setInputValue("");
   };
   const handleInputChange = (e) => {
     setInputValue(e.target.value);

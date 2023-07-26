@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { SERVER_URL } from "../config/config";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -32,11 +33,13 @@ const VitaminList = ({ vitaminArray }) => {
     };
     dispatch(addVitaminElem(vitaminListElem));
     //영양 성분 가져오기.
-    const data = {
-      href,
-    };
     const URL = `${SERVER_URL}/vitamin/supplement-facts`;
-    const response = await axios.post(URL, data);
+    const response = await axios.get(URL, {
+      params: {
+        href,
+      },
+    });
+    console.log(response);
     const facts = response.data;
     //세션스토리지에 영양성분 저장.
     sessionStorage.setItem(uuid, JSON.stringify(facts));
@@ -77,7 +80,7 @@ export default function SearchVitamin() {
   const [vitaminArray, setVitamins] = useState([]);
   const handleSearchButton = async () => {
     try {
-      const URL = `${SERVER_URL}/vitamin/image?search=${inputValue}`;
+      const URL = `${SERVER_URL}/vitamin/search?search=${inputValue}`;
       const response = await axios.get(URL);
       setVitamins(response.data);
     } catch (error) {
@@ -89,9 +92,7 @@ export default function SearchVitamin() {
   };
   return (
     <div>
-      <div>
-        영양제 검색
-      </div>
+      <div>영양제 검색</div>
       <input type="text" value={inputValue} onChange={handleInputChange} />
       <button onClick={handleSearchButton}>검색하기</button>
       <VitaminList vitaminArray={vitaminArray}></VitaminList>

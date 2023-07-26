@@ -7,8 +7,9 @@ import { store } from "./store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MyVitamin from "./components/MyVitamin";
 import MyGraph from "./components/MyGraph";
+import MyCombination from "./components/MyCombination";
+import MyVitamin from "./components/MyVitamin";
 function App() {
   return (
     <Provider store={store}>
@@ -44,7 +45,10 @@ function App() {
                 </div>
                 <div className="container-mypage">
                   <div className="picked-vitamin">
-                  <MyVitamin></MyVitamin>
+                    <MyCombination></MyCombination>
+                  </div>
+                  <div className="search-vitamin">
+                    <MyVitamin></MyVitamin>
                   </div>
                   <div className="graph-vitamin">
                     총 영양소(mg) 그래프
