@@ -5,16 +5,11 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-<<<<<<< HEAD
-import { useLocation, useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../config/config";
-=======
 import { SERVER_URL } from "../config/config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { myTotalActions } from "../reducers/my-total-reducer";
 import { myVitaminListActions } from "../reducers/my-vitamin-reducer";
->>>>>>> frontend
 function LoginForm() {
   const [loginId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
