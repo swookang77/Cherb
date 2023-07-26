@@ -79,7 +79,7 @@ export default function SearchVitamin() {
   const [vitaminArray, setVitamins] = useState([]);
   const handleSearchButton = async () => {
     try {
-      const URL = `${SERVER_URL}/vitamin/image?search=${inputValue}`;
+      const URL = `${SERVER_URL}/vitamin/search?search=${inputValue}`;
       const response = await axios.get(URL);
       setVitamins(response.data);
     } catch (error) {
