@@ -21,7 +21,7 @@ export class VitaminController {
     private authService: AuthService,
   ) { }
   //유저가 검색한 비타민을 웹 스크래핑해서 응답.
-  @Get('/image')
+  @Get('/search')
   async getImage(@Query('search') search: string): Promise<VitaminAttrDto[]> {
     const result = await this.vitaminService.getVitaminAttr(search);
     return result;
