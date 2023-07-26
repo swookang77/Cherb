@@ -12,7 +12,7 @@ import { SaveCombinationDto } from './dto/save-Combination.dto';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 import { VitaminAttrDto } from './dto/get-vitamin-attr.dto';
-import { CombiListElem, CombinationData } from './models/vitamin.model';
+import { CombiListElem, CombinationData, SupplementFacts } from './models/vitamin.model';
 
 @Controller('vitamin')
 export class VitaminController {
@@ -28,8 +28,8 @@ export class VitaminController {
   }
   //유저가 추가한 비타민 영양성분 웹 스크래핑해서 응답
   @Get('/supplement-facts')
-  async getFacts(@Query('href') href: string): Promise<object> {
-    const supplementFacts = await this.vitaminService.getVitaminFacts(href);
+  async getFacts(@Query('href') href: string): Promise<SupplementFacts> {
+    const supplementFacts = await this.vitaminService.getVitaminFacts(href) as SupplementFacts;
     return supplementFacts;
   }
   //유저가 추가한 조합 저장.

@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Combination } from './schema/combination.schema';
 import { CombiList } from './schema/combiList.schema';
-import { CombiListElem, CombinationData } from './models/vitamin.model';
+import { CombiListElem, CombinationData, SupplementFacts } from './models/vitamin.model';
 
 @Injectable()
 export class VitaminService {
@@ -41,7 +41,7 @@ export class VitaminService {
     return vitaminAttr;
   }
   //비타민 영양 성분 스크래핑
-  async getVitaminFacts(href: string): Promise<object> {
+  async getVitaminFacts(href: string): Promise<SupplementFacts> {
     //403방지 헤더.
     const config = {
       headers: {
@@ -75,7 +75,6 @@ export class VitaminService {
         }
       }
     });
-    console.log(supplementFacts);
     return supplementFacts;
   }
   //조합 저장

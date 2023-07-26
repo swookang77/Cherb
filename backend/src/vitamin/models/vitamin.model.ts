@@ -24,3 +24,7 @@ export interface CombinationData {
   total: Array<object>,
   vitaminList: Array<object>,
 }
+
+export interface SupplementFacts {
+  [key: string]: number
+}
