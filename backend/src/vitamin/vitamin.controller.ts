@@ -12,14 +12,18 @@ import { SaveCombinationDto } from './dto/save-Combination.dto';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 import { VitaminAttrDto } from './dto/get-vitamin-attr.dto';
-import { CombiListElem, CombinationData, SupplementFacts } from './models/vitamin.model';
+import {
+  CombiListElem,
+  CombinationData,
+  SupplementFacts,
+} from './models/vitamin.model';
 
 @Controller('vitamin')
 export class VitaminController {
   constructor(
     private vitaminService: VitaminService,
     private authService: AuthService,
-  ) { }
+  ) {}
   //유저가 검색한 비타민을 웹 스크래핑해서 응답.
   @Get('/search')
   async getImage(@Query('search') search: string): Promise<VitaminAttrDto[]> {
@@ -29,7 +33,9 @@ export class VitaminController {
   //유저가 추가한 비타민 영양성분 웹 스크래핑해서 응답
   @Get('/supplement-facts')
   async getFacts(@Query('href') href: string): Promise<SupplementFacts> {
-    const supplementFacts = await this.vitaminService.getVitaminFacts(href) as SupplementFacts;
+    const supplementFacts = (await this.vitaminService.getVitaminFacts(
+      href,
+    )) as SupplementFacts;
     return supplementFacts;
   }
   //유저가 추가한 조합 저장.
@@ -42,7 +48,13 @@ export class VitaminController {
     const accesstoken = request.cookies['accesstoken'];
     this.authService.canActivate(accesstoken);
     const id = this.authService.getId(accesstoken);
-    await this.vitaminService.saveCombination(uuid, id, title, vitaminList, total);
+    await this.vitaminService.saveCombination(
+      uuid,
+      id,
+      title,
+      vitaminList,
+      total,
+    );
     await this.vitaminService.addCombiList(id, uuid, title);
     return { message: '저장완료' };
   }
@@ -55,14 +67,17 @@ export class VitaminController {
     const combiList = await this.vitaminService.getCombiList(id);
     return combiList;
   }
-  //유저가 클릭한 조합에 해당하는 total , vitaminList 응답. 
+  //유저가 클릭한 조합에 해당하는 total , vitaminList 응답.
   @Get('/combination')
   async getTotal(@Query('uuid') uuid: string): Promise<CombinationData> {
     return await this.vitaminService.getCombinationData(uuid);
   }
   //유저가 삭제를 원하는 조합 삭제
   @Delete('/delete')
-  async deleteCombi(@Query('uuid') uuid: string, @Req() request: Request): Promise<{ message: string }> {
+  async deleteCombi(
+    @Query('uuid') uuid: string,
+    @Req() request: Request,
+  ): Promise<{ message: string }> {
     const accesstoken = request.cookies['accesstoken'];
     this.authService.canActivate(accesstoken);
     const id = this.authService.getId(accesstoken);

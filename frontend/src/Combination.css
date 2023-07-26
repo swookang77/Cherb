@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  text-align: center;
+}
+
+.search-vitamin{
+  height: 650px;
+  overflow: auto;
+  width: calc(25%);
+}
+
+.picked-vitamin {
+  overflow: auto;
+  left: calc(25%);
+  width: calc(25%);
+}
+
+.graph-vitamin{
+  left: calc(50%);
+  width: calc(50%);
+  height: 300px;
+}
+
+.container-mypage {
+  display: flex;
+  text-align:center;
+  justify-content: center;
+}
