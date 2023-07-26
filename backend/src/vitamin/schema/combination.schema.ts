@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { TotalElem, VitaminListElem } from '../models/vitamin.model';
 
 export type CombinationDocument = HydratedDocument<Combination>;
 //Post스키마 구성
@@ -12,9 +13,9 @@ export class Combination {
   @Prop()
   title: string;
   @Prop()
-  vitaminList: Array<object>;
+  vitaminList: Array<VitaminListElem>;
   @Prop()
-  total: Array<object>;
+  total: Array<TotalElem>;
 }
 //Post스키마 생성
 export const CombinationSchema = SchemaFactory.createForClass(Combination);

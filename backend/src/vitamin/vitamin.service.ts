@@ -6,8 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Combination } from './schema/combination.schema';
 import { CombiList } from './schema/combiList.schema';
-import { combiListElem } from './models/vitamin.model';
-import CombinationData from './models/combination-data.model';
+import { CombiListElem, CombinationData } from './models/vitamin.model';
 
 @Injectable()
 export class VitaminService {
@@ -15,6 +14,7 @@ export class VitaminService {
     @InjectModel('Combination') private combinationModel: Model<Combination>,
     @InjectModel('CombiList') private combiListModel: Model<CombiList>,
   ) { }
+  //비타민 검색 결과 스크래핑.
   async getVitaminAttr(search: string): Promise<VitaminAttrDto[]> {
     const searchUrl = `https://kr.iherb.com/search?kw=${search}`;
     //iherb에 검색.
@@ -40,7 +40,8 @@ export class VitaminService {
     });
     return vitaminAttr;
   }
-  async getVitaminFacts(href: string) {
+  //비타민 영양 성분 스크래핑
+  async getVitaminFacts(href: string): Promise<object> {
     //403방지 헤더.
     const config = {
       headers: {
@@ -74,8 +75,10 @@ export class VitaminService {
         }
       }
     });
+    console.log(supplementFacts);
     return supplementFacts;
   }
+  //조합 저장
   async saveCombination(
     uuid: string,
     id: string,
@@ -100,7 +103,8 @@ export class VitaminService {
     }
     return;
   }
-  async addCombiList(id: string, uuid: string, title: string) {
+  //조합 저장시 조합리스트에 조합 추가
+  async addCombiList(id: string, uuid: string, title: string): Promise<void> {
     try {
       const item = await this.combiListModel.findById({ _id: id });
       const newElem = { uuid, title };
@@ -121,7 +125,8 @@ export class VitaminService {
       throw new InternalServerErrorException('Failed to save combiList data.');
     }
   }
-  async getCombiList(id: string) {
+  //조합 리스트 반환
+  async getCombiList(id: string): Promise<CombiListElem[]> {
     try {
       const item = await this.combiListModel.findById({ _id: id });
       if (item) {
@@ -133,7 +138,8 @@ export class VitaminService {
       throw new InternalServerErrorException('Failed to get CombiList');
     }
   }
-  async getCombinationData(uuid: string) {
+  //조합 정보 반환
+  async getCombinationData(uuid: string): Promise<CombinationData> {
     try {
       const item = await this.combinationModel.findById({ _id: uuid });
       const combinationData: CombinationData = { total: [], vitaminList: [] };
@@ -141,16 +147,18 @@ export class VitaminService {
         combinationData.total = item.total;
         combinationData.vitaminList = item.vitaminList;
       }
+      console.log(combinationData);
       return combinationData
     } catch (error) {
       throw new InternalServerErrorException('Failed to get Total');
     }
   }
-  async deleteCombi(uuid: string, id: string) {
+  //조합 삭제
+  async deleteCombi(uuid: string, id: string): Promise<{ message: string }> {
     try {
       await this.combinationModel.deleteOne({ _id: uuid });
       const item = await this.combiListModel.findOne({ _id: id });
-      const combiList = item.combiList as combiListElem[];
+      const combiList = item.combiList as CombiListElem[];
       const newCombiList = combiList.filter((elem) => elem.uuid !== uuid);
       await this.combiListModel.updateOne(
         { _id: id },
