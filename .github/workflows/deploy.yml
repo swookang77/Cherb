@@ -17,7 +17,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18' 
-
+          
+      - name: Change directory to frontend
+        run: cd frontend
+        
       - name: Install dependencies
         run: npm install
 
@@ -25,6 +28,7 @@ jobs:
         run: npm run build
         env:
           SERVER_URL: ${{ secrets.SERVER_URL}}
+          
       - name: Upload to S3
         run: |
           aws s3 sync build/ s3://cherb-bucket/
