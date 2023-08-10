@@ -36,10 +36,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           cd frontend
-          tree
           aws s3 sync \
             --region ap-northeast-2 \
-            build s3://fe-63-shinnh2-s3 \
+            build s3://cherb-bucket \
             --delete
 
 
