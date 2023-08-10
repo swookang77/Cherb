@@ -20,6 +20,7 @@ export class UserController {
     await this.userService.save(user);
     return { message: '회원가입 완료. 로그인 해주세요.' };
   }
+
   @Post('/login')
   async login(
     @Body() loginUserDto: LoginUserDto,
