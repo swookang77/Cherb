@@ -23,6 +23,7 @@
 |cloudfront| 웹 컨텐츠 응답 & s3의 캐시 역할  |
 |s3| cloudfront의 origin으로서 웹 컨텐츠를 저장.|  
 |cheerio| iherb에서 회원이 검색한 비타민 & 영양성분 스크래핑할때 사용.  |
+|github actions| frontend브랜치에 push시 빌드 & s3업로드 |
 
 
 
