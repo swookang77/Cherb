@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Show directory tree
+        run: |
+          apt-get update && apt-get install -y tree
+          tree
           
       - name: Change directory to frontend
         run: cd frontend
