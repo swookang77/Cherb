@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { SERVER_URL } from "../config/config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { myTotalActions } from "../reducers/my-total-reducer";
@@ -20,7 +21,7 @@ function LoginForm() {
       password: loginPassword,
     };
     await axios
-      .post(`${process.env.SERVER_URL}/user/login`, userData, { withCredentials: true })
+      .post(`${SERVER_URL}/user/login`, userData, { withCredentials: true })
       .then((response) => {
         alert(response.data.message);
         window.location.reload();
@@ -72,7 +73,7 @@ function JoinForm() {
       email: joinEmail,
     };
     await axios
-      .post(`${process.env.SERVER_URL}/user/join`, userData)
+      .post(`${SERVER_URL}/user/join`, userData)
       .then((response) => {
         alert(response.data.message);
         window.location.reload();
@@ -142,7 +143,7 @@ function NavBar() {
   const location = useLocation();
   const isCombinationPage = location.pathname === "/combination";
   const api = axios.create({
-    baseURL: process.env.SERVER_URL,
+    baseURL: SERVER_URL,
     withCredentials: true, // 쿠키 전송을 위한 옵션 설정
   });
   const handleMyPage = () => {
@@ -156,7 +157,7 @@ function NavBar() {
   useEffect(() => {
     const check = async () => {
       try {
-        const response = await api.get(`${process.env.SERVER_URL}/auth`);
+        const response = await api.get(`${SERVER_URL}/auth`);
         setIsLoggedIn(response.data);
       } catch (error) {
         console.error(error);

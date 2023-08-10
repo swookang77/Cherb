@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
+import { SERVER_URL } from "../config/config";
 import { useDispatch } from "react-redux";
 import { myTotalActions } from "../reducers/my-total-reducer";
 import { myVitaminListActions } from "../reducers/my-vitamin-reducer";
@@ -9,17 +10,17 @@ export default function MyCombination() {
   const [combiList, setCombiList] = useState([]);
   const dispatch = useDispatch();
   const api = axios.create({
-    baseURL: process.env.SERVER_URL,
+    baseURL: SERVER_URL,
     withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
   });
   useEffect(() => {
     const api = axios.create({
-      baseURL: process.env.SERVER_URL,
+      baseURL: SERVER_URL,
       withCredentials: true, // 쿠키 자동 전송을 위한 옵션 설정
     });
     const getCombiList = async () => {
       try {
-        const response = await api.get(`${process.env.SERVER_URL}/vitamin/combiList`);
+        const response = await api.get(`${SERVER_URL}/vitamin/combiList`);
         setCombiList(response.data);
       } catch (error) {
         console.error(error);
@@ -29,7 +30,7 @@ export default function MyCombination() {
   }, []);
   const handleDelete = async (uuid) => {
     try {
-      const response = await api.delete(`${process.env.SERVER_URL}/vitamin/delete`, { params: { uuid } });
+      const response = await api.delete(`${SERVER_URL}/vitamin/delete`, { params: { uuid } });
       alert(response.data.message);
       window.location.reload();
       dispatch(myTotalActions.updateMyTotal([]));
@@ -40,7 +41,7 @@ export default function MyCombination() {
   };
   const handleShow = async (uuid) => {
     try {
-      const response = await api.get(`${process.env.SERVER_URL}/vitamin/combination`, { params: { uuid } });
+      const response = await api.get(`${SERVER_URL}/vitamin/combination`, { params: { uuid } });
       const total = response.data.total;
       const vitaminList = response.data.vitaminList;
       dispatch(myTotalActions.updateMyTotal(total));
