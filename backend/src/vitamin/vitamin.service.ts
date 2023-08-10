@@ -115,7 +115,7 @@ export class VitaminService {
       } else {
         const newitem = new this.combiListModel({
           _id: id,
-          combiList: newElem,
+          combiList: [newElem],
         });
         await newitem.save();
       }
