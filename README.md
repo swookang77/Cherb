@@ -7,6 +7,9 @@
 
 영양제 조합의 총 영양성분을 알려주는 사이트
 
+## 아키텍처 
+![cherb drawio (1)](https://github.com/swookang77/Cherb/assets/106954289/1930294f-f82b-4dd3-98ff-1f60a2e06e75)
+
 
 ## 시연
 ![Jul-26-2023 14-35-39](https://github.com/swookang77/Cherb/assets/106954289/e2e6db54-4b4a-4054-9198-05f27d0d4662)
