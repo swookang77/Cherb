@@ -30,7 +30,7 @@ function App() {
                     <PickedVitamin></PickedVitamin>
                   </div>
                   <div className="graph-vitamin">
-                    총 영양소(mg) 그래프
+                    총 영양성분(mg) 그래프
                     <GraphVitamin></GraphVitamin>
                   </div>
                 </div>
@@ -51,7 +51,7 @@ function App() {
                     <MyVitamin></MyVitamin>
                   </div>
                   <div className="graph-vitamin">
-                    총 영양소(mg) 그래프
+                    총 영양성분(mg) 그래프
                     <MyGraph></MyGraph>
                   </div>
                 </div>
