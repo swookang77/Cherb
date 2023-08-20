@@ -16,8 +16,7 @@ export class UserController {
     const { id, password, email } = createUserDto;
     const isExistId = await this.userService.isExistId(id);
     if (isExistId) throw new HttpException('id already exists', 409);
-    const user = this.userService.create(id, password, email);
-    await this.userService.save(user);
+    await this.userService.save(id,password,email);
     return { message: '회원가입 완료. 로그인 해주세요.' };
   }
 
