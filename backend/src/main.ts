@@ -34,8 +34,6 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   await app.init();
-
-  http.createServer(server).listen(80);
   https.createServer(httpsOptions,server).listen(443);
 }
 bootstrap();
